@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="45" height="14" viewBox="0 0 45 14">
+  <g id="Group_18" data-name="Group 18" transform="translate(-24 -336)">
+    <path id="Subtraction_7" data-name="Subtraction 7" d="M-865.927,13.5h-30a14.932,14.932,0,0,1,4.852-9.593A15.078,15.078,0,0,1-880.926,0a15.079,15.079,0,0,1,10.147,3.907,14.933,14.933,0,0,1,4.852,9.592Z" transform="translate(926.426 336)" fill="#ffcd82"/>
+    <line id="Line_7" data-name="Line 7" x2="45" transform="translate(24 349.5)" fill="none" stroke="#404040" stroke-width="1"/>
+    <g id="Polygon_3" data-name="Polygon 3" transform="translate(41 341)" fill="#404040">
+      <path d="M 8.190984725952148 8.5 L 0.8090149760246277 8.5 L 4.5 1.118029952049255 L 8.190984725952148 8.5 Z" stroke="none"/>
+      <path d="M 4.5 2.236070156097412 L 1.618034839630127 8 L 7.381965160369873 8 L 4.5 2.236070156097412 M 4.5 0 L 9 9 L 0 9 L 4.5 0 Z" stroke="none" fill="#404040"/>
+    </g>
+  </g>
+</svg>
