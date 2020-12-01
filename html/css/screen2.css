@@ -29,10 +29,20 @@
     --display-cloud:block;
     --display-stars:none;
 
-    --height-header:350px;
+    
 
-    --padding-default:16px;
-    --padding-top-default:16px;
+    --global-baseline: calc(1rem / 4.5);
+
+    --global-whitespace-xxs:var(--global-baseline);
+    --global-whitespace-xs:calc(var(--global-baseline) * 2);
+    --global-whitespace-sm:calc(var(--global-baseline) * 3);
+    --global-whitespace-md:calc(var(--global-baseline) * 4);
+    --global-whitespace-lg:calc(var(--global-baseline) * 5);
+    --global-whitespace-xl:calc(var(--global-baseline) * 6);
+
+    --global-content-width:18rem;
+    --global-height-header:20rem;
+    
 }
 
 .is-night {
@@ -63,8 +73,17 @@
 
 
 /*------------------------------------*\
-#GENERIC
+#MEDIA QUERIES FOR DESKTOP
 \*------------------------------------*/
+
+
+@media(min-width: 42rem) {
+    :root {
+        --global-content-width:20rem;
+        --global-height-header:26rem;
+    }
+}
+
 
 /*
     Generic: Page
@@ -81,7 +100,7 @@ html {
     /* FONT */
     color: var(--color-text-main);
     font-feature-settings: "zero" 1; 
-    font-size: 16px;
+    font-size: 112.5%;
     line-height: 1.5;
     font-family: "objektiv-mk1", Helvetica, arial, sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -147,29 +166,29 @@ h3 {
 }
 
 h1 {
-    font-size: 36px;
-    line-height: 48px;
-    margin: 0 0 24px;
+    font-size: 2rem;
+    line-height: calc(var(--global-whitespace-xl) * 2);
+    margin: 0 0 var(--global-whitespace-xl);
 }
 
 h2 {
-    font-size: 32px;
-    line-height: 40px;
-    margin: 0 0 24px;
+    font-size: 1.8rem;
+    line-height: calc(var(--global-whitespace-lg) * 2);
+    margin: 0 0 var(--global-whitespace-xl);
 }
 
 h3 {
-    font-size: 22px;
-    line-height: 32px;
+    font-size: 1.2rem;
+    line-height: calc(var(--global-whitespace-md) * 2);
 }
 
 h4,
 h5,
 h6 {
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: 600;
-    line-height: 24px;
-    margin: 0 0 24px;
+    line-height: var(--global-whitespace-xl);
+    margin: 0 0 var(--global-whitespace-xl);
 }
 
 p,
@@ -179,12 +198,12 @@ dl,
 table,
 address,
 figure {
-    margin: 0 0 24px;
+    margin: 0 0 var(--global-whitespace-xl);
 }
 
 ul,
 ol {
-    padding-left: 24px;
+    padding-left: var(--global-whitespace-xl);
 }
 
 li ul,
@@ -194,9 +213,9 @@ li ol {
 
 blockquote {
     font-style: normal;
-    font-size: 23px;
-    line-height: 32px;
-    margin: 0 0 24px;
+    font-size: 1.3rem;
+    line-height: calc(var(--global-whitespace-md) * 2);
+    margin: 0 0 var(--global-whitespace-xl);
 }
 
 blockquote * {
@@ -206,16 +225,16 @@ blockquote * {
 
 figcaption {
     font-weight: 400;
-    font-size: 12px;
-    line-height: 16px;
-    margin-top: 8px;
+    font-size: 0.6666rem;
+    line-height: var(--global-whitespace-md);
+    margin-top: var(--global-whitespace-xs);
 }
 
 hr {
     border: 0;
     height: 1px;
     background: LightGrey;
-    margin: 0 0 24px;
+    margin: 0 0 var(--global-whitespace-xl)
 }
 
 a {
@@ -266,8 +285,9 @@ input::placeholder {
 .c-app {
     display: grid;
     height: 100vh;
-    grid-template-columns: var(--padding-default) auto var(--padding-default);
-    grid-template-rows: var(--height-header) auto;
+    grid-template-columns: var(--global-whitespace-md) auto var(--global-whitespace-md);
+    grid-template-rows: var(--global-height-header) auto;
+
 }
 
 /*
@@ -280,8 +300,9 @@ input::placeholder {
     grid-column: 1 / span 3;
     background: linear-gradient(180deg, var(--color-gradient-1) 0%, var(--color-gradient-2) 30%, var(--color-gradient-3) 100%);
     display: grid;
-    grid-template-columns: var(--padding-default) auto var(--padding-default);
-    grid-template-rows: var(--padding-top-default) auto;
+    grid-template-columns: var(--global-whitespace-md) auto var(--global-whitespace-md);
+    grid-template-rows: var(--global-whitespace-md) auto;
+    justify-content: center;
     /* -webkit-box-shadow: 0px 6px 10px 0px rgba(0,0,0,0.16);
     -moz-box-shadow: 0px 6px 10px 0px rgba(0,0,0,0.16);
     box-shadow: 0px 6px 10px 0px rgba(0,0,0,0.16); */
@@ -291,29 +312,38 @@ input::placeholder {
     grid-column: 2;
     grid-row: 2;
     position: relative;
-    min-height: calc( var(--height-header) - var(--padding-default));
-    
+    min-height: calc( var(--global-height-header) - var(--global-whitespace-md));
+
+    width: var(--global-content-width);
 }
 
-@media (min-width:768px) {
-    :root {
-        --padding-default:48px;
-    }
+@media (min-width:42rem) {
+
 }
 
-/* BLUR WHEN ON DESKTOP AND TABLET */
-/* .c-blur {
-    grid-column: 3;
-    grid-row: span 2;
-    filter: blur(8px);
-    background-color: #fff;
-}
-.c-blur:first-child {
-    grid-column: 1;
-    filter: blur(8px);
-    
-} */
 
+/*
+    Component: Main
+    ---
+    Styles the second part of the page
+*/
+
+.c-main {
+    grid-column: 1 / span 3;
+    grid-row:2;
+    display: grid;
+    grid-template-columns: var(--global-whitespace-md) auto var(--global-whitespace-md);
+    grid-template-rows: var(--global-whitespace-md) auto;
+    height: auto;
+    background: linear-gradient(180deg, var(--color-hill-1) 0%, var(--color-hill-2) 100%);
+
+}
+.c-main__content {
+    grid-column: 2;
+    grid-row: 2;
+    width: var(--global-content-width);
+    margin:0 auto;
+}
 
 /*
     Component: Logo
@@ -322,7 +352,7 @@ input::placeholder {
 */
 
 .c-logo {
-    height: 30px;
+    height: 1.8rem;
 }
 
 .c-logo__moon {
@@ -366,7 +396,7 @@ input::placeholder {
     fill: var(--color-mountain-1);
 } 
 
-@media(min-width: 768px) {
+@media(min-width: 42rem) {
     /* to do */
     .c-mountain__1 {
         left:-5%;
@@ -396,13 +426,19 @@ input::placeholder {
 }
 .c-hill__rect {    
 
-    height:200px;
+    height:12rem;
     border-radius:50%;
     -webkit-box-shadow: 0px -2px 10px 0px rgba(0,0,0,0.16);
     -moz-box-shadow: 0px -2px 10px 0px rgba(0,0,0,0.16);
     box-shadow: 0px -2px 10px 0px rgba(0,0,0,0.16);
     background-color:var(--color-hill-1);
 }
+@media(min-width: 42rem) {
+    .c-hill__rect {
+        height: 15rem;
+    }
+}
+
 /*
     Component: Icon
     ---
@@ -551,26 +587,7 @@ input::placeholder {
     top:50%;
 }
 
-/*
-    Component: Main
-    ---
-    Styles the second part of the page
-*/
 
-.c-main {
-    grid-column: 1 / span 3;
-    grid-row:2;
-    display: grid;
-    grid-template-columns: var(--padding-default) auto var(--padding-default);
-    grid-template-rows: var(--padding-top-default) auto;
-    height: auto;
-    background: linear-gradient(180deg, var(--color-hill-1) 0%, var(--color-hill-2) 100%);
-
-}
-.c-main__content {
-    grid-column: 2;
-    grid-row: 2;
-}
 
 /*
     Component: Pos
@@ -578,13 +595,13 @@ input::placeholder {
     Styles the first part of main that shows the sunset/sunrise times
 */
 
-.c-pos {
+.c-position {
     display: flex;
     justify-content: space-between;
 }
-.c-pos__text {
+.c-position__text {
     text-align: center;
-    margin-bottom: 0px;
+    margin-bottom: 0;
     color:var(--color-text-main);
 }
 
@@ -596,35 +613,23 @@ input::placeholder {
 
 .c-text {
     text-align: center;
-    font-size: 18px;
     color:var(--color-text-main);
+    margin-top: var(--global-whitespace-xl);
 }
 
 .c-content__text{
     border: none;
     border-top:1px solid var(--color-border-main);
-    /* padding:48px 0 24px 0; */
     text-align: center;
-    font-size: 18px;
-    padding:16px;
+
+    padding:var(--global-whitespace-md);
 }
 .c-content__text:first-child{
     border:none;
 }
 
 .c-content-heading{
-    margin:12px 0;
-}
-@media (min-width:768px) {
-    .c-text {
-        display: flex;
-        align-items: flex-end;
-    }
-
-    .c-content__text {
-        border-top:none;
-        border-left:1px solid var(--color-border-main);
-    }
+    margin:var(--global-whitespace-sm) 0;
 }
 
 
@@ -637,8 +642,9 @@ input::placeholder {
     font-weight: 300;
 }
 
+
 .u-mt-sm {
-    margin-top: 6px;
+    margin-top: var(--global-whitespace-xxs);
     
 }
 
