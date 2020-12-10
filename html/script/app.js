@@ -1,13 +1,48 @@
-const RandomPosition = function(list) {
+var html_clouds;
+var html_stars;
+var html_body;
+var suncalc;
 
-    for (i of list) {
-        i.style.top = `${Math.floor(Math.random() * 40) + 10}%`;
-        i.style.left = `${Math.floor(Math.random() * 100) + 10}%`;
+const listenToClouds = function(list) {
+    for(i of list) {
+        i.addEventListener("animationiteration", RandomClouds(i));
     }
 }
 
+
+const RandomClouds = function(i) {
+    i.style.animationDelay = `${Math.floor(Math.random() * 10) + 1}s`; 
+    i.style.top = `${Math.floor(Math.random() * 65) + 1}%` ;
+    i.style.transform += `rotate(${Math.floor(Math.random() * 30) - 30}deg)`;
+}
+
+const RandomStars = function(list) {
+    for(i of list) {
+        i.style.animationDuration = `${Math.floor(Math.random() * 6) + 2}s`;
+        i.style.top = `${Math.floor(Math.random() * 70) + 1}%`;
+        i.style.left = `${Math.floor(Math.random() * 99) + 1}%`;
+    }
+}
+
+const RefreshBody = function() {
+
+    if (html_body.classList.contains("is-night")) {
+        console.log("NIGHT")
+        html_stars = document.querySelector(".js-stars").children;
+        RandomStars(html_stars);
+    }
+    else {
+        console.log("DAY")
+        html_clouds = document.querySelector(".js-clouds").children;
+        listenToClouds(html_clouds);
+    }
+
+}
+
+
 document.addEventListener('DOMContentLoaded', function() {
     console.log("Script Loaded!")
+    html_body = document.body
 
     var currentTime = new Date();
     var lat = 50.82803;
@@ -18,9 +53,23 @@ document.addEventListener('DOMContentLoaded', function() {
     // console.log(suncalc.dawn)
 
 
-    var stars = document.querySelector(".js-stars");
+    RefreshBody();
 
-    var stars = stars.children;
+    var sw = document.querySelectorAll(".js-switch")
 
-    RandomPosition(stars);
+    for (i of sw ) {
+        i.addEventListener("change", function() {
+            if (this.value == "Day") {
+                html_body.classList.remove("is-night");
+                RefreshBody();
+            }
+            else if (this.value == "Night") {
+                html_body.classList.add("is-night");
+                RefreshBody();
+            }
+        });
+    }
+    
+
+
 });
