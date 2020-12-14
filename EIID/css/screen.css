@@ -29,6 +29,9 @@
     --display-cloud:block;
     --display-stars:none;
 
+    /* transition */
+    --global-transitionProperty-ease:ease-out;
+    --global-transitionTime-alpha:0.1s;
     
 
     --global-baseline: calc(1rem / 4.5);
@@ -67,6 +70,8 @@
     --display-moon:block;
     --display-cloud:none;
     --display-stars:block;
+
+
 
     
 }
@@ -508,16 +513,18 @@ input::placeholder {
 
 .c-icon {
     position: absolute;
-    bottom: 20%;
-    
+
 }
 .c-icon__svg {
     fill:var(--global-color-sun);
+
 }
 .c-icon__moon {
+
     display: var(--display-moon);
 }
 .c-icon__sun {
+
     display: var(--display-sun);
 }
 
