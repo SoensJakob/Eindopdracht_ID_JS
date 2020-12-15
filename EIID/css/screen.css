@@ -32,13 +32,8 @@
     /* transition */
     --global-transitionProperty-ease:ease-out;
     --global-transitionTime-alpha:0.1s;
+    --global-transitionTime-beta:0.3s;
 
-    /* animation
-    --global-animation-duration-sm:30s;
-    --global-animation-duration-lg:90s; */
-
-
-    
 
     --global-baseline: calc(1rem / 4.5);
 
@@ -515,14 +510,14 @@ input::placeholder {
 }
 
 /*
-    Component: Icon
+    Component: Icon & moon
     ---
     Icon is the sun or moon on the main page
 */
 
 .c-icon {
     position: absolute;
-    
+    transition: opacity var(--global-transitionTime-beta) var(--global-transitionProperty-ease);
 
 }
 .c-icon__svg {
@@ -538,6 +533,35 @@ input::placeholder {
     display: var(--display-sun);
 }
 
+.c-moon__circle {
+    width: 38px;
+    height: 38px;
+    border-radius: 100%;
+    overflow: hidden;
+    position: absolute;
+    /* box-shadow: inset 2px 0px 25px 10px rgba(0,0,0,0.05); */
+}
+.c-moon__circle::after {
+    content:'';
+    position:absolute;
+    top:0;
+    left:10%; 
+    border-radius:100%;
+    width:38px; 
+    height:38px;
+    box-shadow: 0px 0px 0px 200px var(--global-color-icon);
+}
+
+/* .c-moon__shadow {
+    background-color:var(--color-gradient-1);
+    opacity: 0.8;
+    box-shadow: -5px 0px 15px 5px rgba(0,0,0,0.2);
+    width: 100%;
+    height: 100%;
+    border-radius: 100%;
+    position: absolute;
+    left:40%;
+} */
 
 /*
     Component: Cloud
@@ -553,12 +577,13 @@ input::placeholder {
     overflow: hidden;
     pointer-events: none;
     
+    
 }
 .c-cloud--item {
     position: absolute;
     animation-name:MoveLeftToRight;
-    
-    /* animation-duration: var(--global-animation-duration-sm); */
+    animation-timing-function: ease-in;
+    animation-duration: 30s;
     animation-iteration-count: infinite;
     
 }
@@ -566,7 +591,7 @@ input::placeholder {
 
 @media (min-width:42rem) {
     .c-cloud--item {
-        animation-duration: var(--global-animation-duration-lg);
+        animation-duration: 90s;
     }
 }   
 

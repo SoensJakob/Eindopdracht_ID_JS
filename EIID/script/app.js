@@ -31,22 +31,27 @@ const setSunPosition = function () {
     // RESET scale 
     html_icon.style.transform = "scale(1)";
 
-    // GET and SET altitude
-    var altitude = suncalcPosition.altitude * 100;
-    html_icon.style.bottom = altitude + "%";
-
-    //GET and SET Horizontal value     
+    //GET Horizontal value     
     var totalMinutes = ((suncalcTimes.sunset.getTime() - suncalcTimes.sunrise.getTime()) / 1000) / 60;
 
     var diff = ((currentTime.getTime() - suncalcTimes.sunrise.getTime()) / 1000) / 60;
     var percetage_timeleft = diff / totalMinutes * 100;
 
-    html_icon.style.left = percetage_timeleft + "%"
+    // Check if sun is visible 
+    if (percetage_timeleft > 100 || percetage_timeleft < 0) {
+        html_icon.style.opacity = "none";
+    }
+    else {
+        html_icon.style.left = percetage_timeleft + "%"
+        html_icon.style.display = "block";
 
+        // GET and SET Vertical value
+        var altitude = suncalcPosition.altitude * 100;
+        html_icon.style.bottom = altitude + "%";
+    }    
     
     // SET Welcome Text
-    html_welcomeText.innerHTML = `<h3>Good Day!</h3>
-                                   <p></p>`
+    html_welcomeText.innerHTML = `<h3>Good Day!</h3> <p></p>`;
 }
 
 const setMoonPosition = function () {
@@ -56,36 +61,34 @@ const setMoonPosition = function () {
     //GET and SET MoonTimes 
     var mooncalcTimes = SunCalc.getMoonTimes(/*Date*/ currentTime, /*Number*/ lat, /*Number*/ long /*Number (default=0)*/);
 
-    
-
     var mooncalcPosition = SunCalc.getMoonPosition(/*Date*/ currentTime, /*Number*/ lat, /*Number*/ long /*Number (default=0)*/);
 
     //SET time values for moon
     setTimeValues(mooncalcTimes.rise, mooncalcTimes.set);
 
-    // GET and SET Vertical value
-    var altitude = mooncalcPosition.altitude * 100;
-    // html_icon.style.bottom = altitude + "%";
-    html_icon.style.bottom = 80 + "%"
-    // GET and SET size
-    var scale = 410000 / mooncalcPosition.distance
-    html_icon.style.transform = `scale(${scale})`;
-
-    //GET and SET Horizontal value     
+    //GET Horizontal value     
     var totalMinutes = ((mooncalcTimes.set.getTime() - mooncalcTimes.rise.getTime()) / 1000) / 60;
 
     var diff = ((currentTime.getTime() - mooncalcTimes.rise.getTime()) / 1000) / 60;
     var percetage_timeleft = diff / totalMinutes * 100;
-
+    
+    // Check if Moon is visible 
     if (percetage_timeleft > 100 || percetage_timeleft < 0) {
         html_icon.style.display = "none";
     }
     else {
         html_icon.style.left = percetage_timeleft + "%"
         html_icon.style.display = "block";
-    }
-    
+        
+        // GET and SET Vertical value
+        var altitude = mooncalcPosition.altitude * 100;
+        // html_icon.style.bottom = altitude + "%";
+        html_icon.style.bottom = 70 + "%";
+        // GET and SET size
+        var scale = 410000 / mooncalcPosition.distance
+        html_icon.style.transform = `scale(${scale})`;
 
+    }
 
     // GET and SET Welcome Text
     var mooncalcTimesNextDay = SunCalc.getMoonTimes(/*Date*/ NextDay, /*Number*/ lat, /*Number*/ long /*Number (default=0)*/);
@@ -141,11 +144,13 @@ const RandomStars = function (list) {
 const RefreshBody = function () {
 
     if (html_body.classList.contains("is-night")) {
+        console.log("NIGHT")
         html_stars = document.querySelector(".js-stars").children;
         RandomStars(html_stars);
         setMoonPosition()
     }
     else {
+        console.log("DAY")
         html_clouds = document.querySelector(".js-clouds").children;
         listenToClouds(html_clouds);
         setSunPosition();
