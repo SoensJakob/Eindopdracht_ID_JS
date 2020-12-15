@@ -20,7 +20,7 @@
     --color-text-main:#135070;
     --color-border-main:#135070;
 
-    --global-color-sun:#FFD596;
+    --global-color-icon:#FFD596;
 
     --display-moon:none;
     --display-sun:block;
@@ -32,6 +32,12 @@
     /* transition */
     --global-transitionProperty-ease:ease-out;
     --global-transitionTime-alpha:0.1s;
+
+    /* animation
+    --global-animation-duration-sm:30s;
+    --global-animation-duration-lg:90s; */
+
+
     
 
     --global-baseline: calc(1rem / 4.5);
@@ -45,7 +51,9 @@
 
     --global-content-width:19rem;
     --global-height-header:20rem;
-    
+
+
+    --global-is-fullscreen:false;
 }
 
 .is-night {
@@ -62,7 +70,7 @@
     --color-text-main:#fff;
     --color-border-main:#fff;
 
-    --global-color-sun:#EFDDC1;
+    --global-color-icon:#EFDDC1;
 
     --display-sun--invert:block;
     --display-moon--invert:none;
@@ -86,6 +94,7 @@
     :root {
         --global-content-width:20rem;
         --global-height-header:26rem;
+        
     }
 }
 
@@ -319,7 +328,7 @@ input::placeholder {
     grid-row: 2;
     position: relative;
     min-height: calc( var(--global-height-header) - var(--global-whitespace-md));
-
+    
     width: var(--global-content-width);
 }
 .c-header__topbar {
@@ -513,10 +522,11 @@ input::placeholder {
 
 .c-icon {
     position: absolute;
+    
 
 }
 .c-icon__svg {
-    fill:var(--global-color-sun);
+    fill:var(--global-color-icon);
 
 }
 .c-icon__moon {
@@ -546,17 +556,17 @@ input::placeholder {
 }
 .c-cloud--item {
     position: absolute;
-    animation-name:MoveLeftToRight; 
-    animation-duration: 30s;
+    animation-name:MoveLeftToRight;
+    
+    /* animation-duration: var(--global-animation-duration-sm); */
     animation-iteration-count: infinite;
-    left:-15%;
+    
 }
 
 
 @media (min-width:42rem) {
     .c-cloud--item {
-        animation-duration: 130s;
-        left:-5%;
+        animation-duration: var(--global-animation-duration-lg);
     }
 }   
 
@@ -582,12 +592,9 @@ input::placeholder {
 }
 
 @keyframes MoveLeftToRight {
-    0% {
-        left:-15%;
-    }
 
     100% {
-        left:115%;
+        left:100vw;
     }
 
 }
@@ -622,6 +629,9 @@ input::placeholder {
     text-align: center;
     margin-bottom: 0;
     color:var(--color-text-main);
+}
+.c-position__fill {
+    fill:var(--global-color-icon);
 }
 
 
