@@ -1,3 +1,9 @@
+$(document).ready(function () { $('.c-main__content').hide().fadeIn(1500)});
+$(document).ready(function () { $('.c-position__switch').hide().fadeIn(1500)});
+$(document).ready(function () { $('.c-clouds').hide().fadeIn(1500)});
+$(document).ready(function () { $('.c-stars').hide().fadeIn(1500)});
+
+
 var html_clouds;
 var html_stars;
 var html_body;
@@ -36,10 +42,9 @@ const setSunPosition = function () {
 
     var diff = ((currentTime.getTime() - suncalcTimes.sunrise.getTime()) / 1000) / 60;
     var percetage_timeleft = diff / totalMinutes * 100;
-
     // Check if sun is visible 
     if (percetage_timeleft > 100 || percetage_timeleft < 0) {
-        html_icon.style.opacity = "none";
+        html_icon.style.display = "none";
     }
     else {
         html_icon.style.left = percetage_timeleft + "%"
@@ -55,14 +60,14 @@ const setSunPosition = function () {
 }
 
 const setMoonPosition = function () {
-    currentTime = new Date();
+    var currentTime = new Date();
     var NextDay = currentTime.setDate(new Date().getDate()+1);
-
+    currentTime = new Date();
     //GET and SET MoonTimes 
     var mooncalcTimes = SunCalc.getMoonTimes(/*Date*/ currentTime, /*Number*/ lat, /*Number*/ long /*Number (default=0)*/);
 
     var mooncalcPosition = SunCalc.getMoonPosition(/*Date*/ currentTime, /*Number*/ lat, /*Number*/ long /*Number (default=0)*/);
-
+    
     //SET time values for moon
     setTimeValues(mooncalcTimes.rise, mooncalcTimes.set);
 
@@ -71,7 +76,9 @@ const setMoonPosition = function () {
 
     var diff = ((currentTime.getTime() - mooncalcTimes.rise.getTime()) / 1000) / 60;
     var percetage_timeleft = diff / totalMinutes * 100;
-    
+
+    var altitude = mooncalcPosition.altitude * 100;
+
     // Check if Moon is visible 
     if (percetage_timeleft > 100 || percetage_timeleft < 0) {
         html_icon.style.display = "none";
@@ -81,26 +88,73 @@ const setMoonPosition = function () {
         html_icon.style.display = "block";
         
         // GET and SET Vertical value
-        var altitude = mooncalcPosition.altitude * 100;
-        // html_icon.style.bottom = altitude + "%";
-        html_icon.style.bottom = 70 + "%";
+        
+        html_icon.style.bottom = altitude + "%";
+        // html_icon.style.bottom = 70 + "%";
         // GET and SET size
         var scale = 410000 / mooncalcPosition.distance
         html_icon.style.transform = `scale(${scale})`;
 
     }
+    
+
+    
+
+    // GET and SET Moon Phase and set text
+    var mooncalcPhase = SunCalc.getMoonIllumination(currentTime);
+
+    if(mooncalcPhase.phase > 0.5) {
+        var left = (mooncalcPhase.phase * 100);
+        if(mooncalcPhase.phase <= 0.03) {
+            var moonPhase = "New Moon";
+        }
+        else if (mooncalcPhase.phase <= 0.23){
+            var moonPhase = "Waxing Crescent";
+        }
+        else if (mooncalcPhase.phase <= 0.27) {
+            var moonPhase = "First Quarter";
+        }
+        else if (mooncalcPhase.phase <= 0.48){
+            var moonPhase = "Waxing Gibbous";
+        }
+        else {
+            var moonPhase = "Full Moon";
+        }
+        
+    }
+    else {
+        var left = (mooncalcPhase.phase * 100) * -1;
+
+        if(mooncalcPhase.phase <= 0.52) {
+            var moonPhase = "Waning Gibbous";
+        }
+        else if (mooncalcPhase.phase <= 0.73){
+            var moonPhase = "Last Quarter";
+        }
+        else if (mooncalcPhase.phase <= 0.77) {
+            var moonPhase = "Last Quarter";
+        }
+        else{
+            var moonPhase = "Waning Crescent";
+        }
+
+    }
+    document.documentElement.style.setProperty('--global-circle-left', `${left}%`)
+    
+    
+    
+
 
     // GET and SET Welcome Text
     var mooncalcTimesNextDay = SunCalc.getMoonTimes(/*Date*/ NextDay, /*Number*/ lat, /*Number*/ long /*Number (default=0)*/);
     var moonRise =  mooncalcTimesNextDay.rise;
-
     if(altitude < 0 ){
         html_welcomeText.innerHTML = `<h3>Good Evening!</h3>
-        <p>It seems like there is no moon tonight it rises at <strong>${moonRise.getHours()}:${moonRise.getMinutes()}</strong> </p>`
+        <p>It seems like there is no moon tonight it rises at <strong>${moonRise.getHours()}:${moonRise.getMinutes()}</strong> tomorrow </p>`
     }
     else {
         html_welcomeText.innerHTML = `<h3>Good Evening!</h3>
-                                   <p></p>`
+                                   <p>The moon is shining tonight \n the lunar phase today is: <strong>${moonPhase}</strong></p>`
     }
 }
 
@@ -118,17 +172,17 @@ const RandomClouds = function (i) {
     // root.style.setProperty('--global-animation-duration-lg', (Math.floor(Math.random() * 25) + 70) + "s");
 
     if(html_body.clientWidth > 762) {
-        i.style.animationDuration = (Math.floor(Math.random() * 25) + 75) + "s";
+        i.style.animationDuration = (Math.floor(Math.random() * 25) + 60) + "s";
     }
     else {
         i.style.animationDuration = (Math.floor(Math.random() * 10) + 20) + "s";
     }
 
 
-    i.style.transform += `rotate(${Math.floor(Math.random() * 30) - 30}deg)`;
+    i.style.transform = `rotate(${Math.floor(Math.random() * 30) - 30}deg)`;
     i.style.transform += `scale(${(Math.random() * 0.5) + 1})`;
     
-    i.style.left = `-${Math.floor(Math.random() * 30) + 1}%`;
+    i.style.left = `-${Math.floor(Math.random() * 45) + 3}%`;
     i.style.top = `${Math.floor(Math.random() * 65) + 1}%`;
 
 }
@@ -147,13 +201,18 @@ const RefreshBody = function () {
         console.log("NIGHT")
         html_stars = document.querySelector(".js-stars").children;
         RandomStars(html_stars);
-        setMoonPosition()
+        if (html_icon){
+            setMoonPosition();
+        }
     }
     else {
         console.log("DAY")
         html_clouds = document.querySelector(".js-clouds").children;
         listenToClouds(html_clouds);
-        setSunPosition();
+        
+        if (html_icon){
+            setSunPosition();
+        }
     }
 
 }
@@ -192,13 +251,18 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
+    var sw_night = document.querySelector(".js-switch--night");
     
-    //Set Theme according to sun position
+        //Set Theme according to sun position
     if (currentTime > suncalcTimes.sunset) {
         html_body.classList.add("is-night");
-        var sw_night = document.querySelector(".js-switch--night");
-        sw_night.checked = true;
+        if (sw_night) {
+            sw_night.checked = true;
+        }
     }
+
+    
+    
     RefreshBody();
 
 

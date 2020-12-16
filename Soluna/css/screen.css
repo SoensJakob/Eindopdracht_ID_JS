@@ -8,7 +8,7 @@
 
 :root {
     --color-mountain-1: #77D4CB;
-    --color-mountain-2: #74C4C5;
+    --color-mountain-2: #43a5a7;
 
     --color-hill-1:#B6F1EC;
     --color-hill-2:#7AD6CF;
@@ -19,6 +19,8 @@
 
     --color-text-main:#135070;
     --color-border-main:#135070;
+    --color-border-shadow:rgba(143,203,228,0.3);
+    
 
     --global-color-icon:#FFD596;
 
@@ -31,8 +33,11 @@
 
     /* transition */
     --global-transitionProperty-ease:ease-out;
-    --global-transitionTime-alpha:0.1s;
+    --global-transitionTime-alpha:0.2s;
     --global-transitionTime-beta:0.3s;
+
+    /* box shadow */ 
+    --global-box-shadow-alpha: 0 3px 6px 0 var(--color-border-shadow);
 
 
     --global-baseline: calc(1rem / 4.5);
@@ -43,12 +48,15 @@
     --global-whitespace-md:calc(var(--global-baseline) * 4);
     --global-whitespace-lg:calc(var(--global-baseline) * 5);
     --global-whitespace-xl:calc(var(--global-baseline) * 6);
+    --global-whitespace-xxl:calc(var(--global-baseline) * 12);
 
     --global-content-width:19rem;
     --global-height-header:20rem;
 
 
     --global-is-fullscreen:false;
+    --global-circle-left:0%;
+    
 }
 
 .is-night {
@@ -64,8 +72,11 @@
 
     --color-text-main:#fff;
     --color-border-main:#fff;
+    --color-border-shadow:rgba(10,46,74,0.3);
 
     --global-color-icon:#EFDDC1;
+    --global-box-shadow-alpha: 0 3px 6px 0 var(--color-border-shadow);
+
 
     --display-sun--invert:block;
     --display-moon--invert:none;
@@ -117,6 +128,7 @@ html {
 
     /* APPEARANCE */
     background-color: var(--global-background);
+    
     
     /* OTHER */
     
@@ -182,7 +194,7 @@ h1 {
 
 h2 {
     font-size: 1.8rem;
-    line-height: calc(var(--global-whitespace-lg) * 2);
+    line-height: calc(var(--global-whitespace-md) * 2);
     margin: 0 0 var(--global-whitespace-xl);
 }
 
@@ -273,7 +285,7 @@ select {
 }
 
 input::placeholder {
-    color: gray;
+    color: var(--color-text-main);
 }
 
 /*------------------------------------*\
@@ -359,6 +371,9 @@ input::placeholder {
     grid-row: 2;
     width: var(--global-content-width);
     margin:0 auto;
+    color:var(--color-text-main);
+    text-align: center;
+    display: none;
 }
 
 /*
@@ -540,28 +555,18 @@ input::placeholder {
     overflow: hidden;
     position: absolute;
     /* box-shadow: inset 2px 0px 25px 10px rgba(0,0,0,0.05); */
+    
 }
 .c-moon__circle::after {
     content:'';
     position:absolute;
-    top:0;
-    left:10%; 
+    top:-1px;
+    left:var(--global-circle-left); 
     border-radius:100%;
-    width:38px; 
-    height:38px;
+    width:40px; 
+    height:40px;
     box-shadow: 0px 0px 0px 200px var(--global-color-icon);
 }
-
-/* .c-moon__shadow {
-    background-color:var(--color-gradient-1);
-    opacity: 0.8;
-    box-shadow: -5px 0px 15px 5px rgba(0,0,0,0.2);
-    width: 100%;
-    height: 100%;
-    border-radius: 100%;
-    position: absolute;
-    left:40%;
-} */
 
 /*
     Component: Cloud
@@ -582,7 +587,7 @@ input::placeholder {
 .c-cloud--item {
     position: absolute;
     animation-name:MoveLeftToRight;
-    animation-timing-function: ease-in;
+    animation-timing-function: linear;
     animation-duration: 30s;
     animation-iteration-count: infinite;
     
@@ -658,6 +663,9 @@ input::placeholder {
 .c-position__fill {
     fill:var(--global-color-icon);
 }
+.c-position__switch {
+    display: none;
+}
 
 
 
@@ -668,25 +676,72 @@ input::placeholder {
 */
 
 .c-text {
-    text-align: center;
-    color:var(--color-text-main);
     margin-top: var(--global-whitespace-xl);
 }
+.c-text__intro {
+    font-size: 1rem;
+    line-height: 1.8;
+    margin:var(--global-whitespace-xl) 0 var(--global-whitespace-xs) 0;
+}
 
-.c-content__text{
+.c-text__intro:first-of-type {
+
+    margin-bottom: var(--global-whitespace-xxl);
+}
+
+.c-text__content{
     border: none;
     border-top:1px solid var(--color-border-main);
     text-align: center;
-
     padding:var(--global-whitespace-md);
 }
-.c-content__text:first-child{
+.c-text__content:first-child{
     border:none;
 }
 
-.c-content-heading{
+.c-text__heading{
     margin:var(--global-whitespace-sm) 0;
+    
 }
+
+/*
+    Component: input
+    ---
+    Styles the inputs on the first page
+
+*/
+
+.c-input {
+    all:unset;
+    box-sizing: border-box;
+    width:100%;
+    border-radius: 8px;
+    padding:var(--global-whitespace-xs) var(--global-whitespace-md);
+    padding-top: var(--global-whitespace-md);
+    margin: var(--global-whitespace-xs);
+    color:var(--color-text-main);
+    background-color: var(--color-mountain-1);
+    border: 1px solid var(--color-mountain-2);
+    transition: all var(--global-transitionTime-alpha) var(--global-transitionProperty-ease);
+    text-align: left;
+    cursor: pointer;
+}
+.c-input:active,
+.c-input:focus {
+    box-shadow:var(--global-box-shadow-alpha);
+}
+.c-input__button {
+    text-align: center;
+    background-color: var(--color-mountain-2);
+    opacity: 1;
+    transform: none;
+}
+.c-input__button:active
+ {
+    transform: translate(0px, 2px);
+    opacity: 0.9;
+}
+
 
 
 /*------------------------------------*\
