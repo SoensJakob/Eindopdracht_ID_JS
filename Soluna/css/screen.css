@@ -20,7 +20,12 @@
     --color-text-main:#135070;
     --color-border-main:#135070;
     --color-border-shadow:rgba(143,203,228,0.3);
+
     
+    
+    --global-color-error:#EA4C49;
+    --global-borderColor-error:#AC0000;
+    --global-boxShadowColor-error:rgba(172,0,0,0.3);
 
     --global-color-icon:#FFD596;
 
@@ -37,9 +42,9 @@
     --global-transitionTime-beta:0.3s;
 
     /* box shadow */ 
-    --global-box-shadow-alpha: 0 3px 6px 0 var(--color-border-shadow);
+    --global-box-shadow-alpha: 0 3px 6px 0;
 
-
+    
     --global-baseline: calc(1rem / 4.5);
 
     --global-whitespace-xxs:var(--global-baseline);
@@ -75,7 +80,7 @@
     --color-border-shadow:rgba(10,46,74,0.3);
 
     --global-color-icon:#EFDDC1;
-    --global-box-shadow-alpha: 0 3px 6px 0 var(--color-border-shadow);
+    --global-box-shadow-alpha: 0 3px 6px 0;
 
 
     --display-sun--invert:block;
@@ -184,6 +189,7 @@ h1,
 h2,
 h3 {
     font-weight: 500;
+    margin-top:0;
 }
 
 h1 {
@@ -674,10 +680,11 @@ input::placeholder {
     ---
     Styles the text on de second part of main 
 */
-
 .c-text {
-    margin-top: var(--global-whitespace-xl);
+    line-height: 1.8;
 }
+
+
 .c-text__intro {
     font-size: 1rem;
     line-height: 1.8;
@@ -703,11 +710,27 @@ input::placeholder {
     margin:var(--global-whitespace-sm) 0;
     
 }
+/*
+    Component: label
+    ---
+    Styles the labels and their states
+*/
+
+.c-label__error-message {
+    
+    float: left;
+    padding-left:var(--global-whitespace-lg);
+	display: none;
+}
+
+.c-label__error-message.is-visible {
+	display: block;
+}
 
 /*
     Component: input
     ---
-    Styles the inputs on the first page
+    Styles the inputs and their states 
 
 */
 
@@ -721,14 +744,17 @@ input::placeholder {
     margin: var(--global-whitespace-xs);
     color:var(--color-text-main);
     background-color: var(--color-mountain-1);
-    border: 1px solid var(--color-mountain-2);
+    border: 1px solid var(--input-borderColor, var(--color-mountain-2));
     transition: all var(--global-transitionTime-alpha) var(--global-transitionProperty-ease);
     text-align: left;
     cursor: pointer;
 }
 .c-input:active,
+.c-input:hover,
 .c-input:focus {
-    box-shadow:var(--global-box-shadow-alpha);
+    border-color: var(--input-focus-borderColor, var(--color-mountain-1));
+    box-shadow:var(--global-box-shadow-alpha) var(--input-focus-boxShadowColor ,var(--color-border-shadow));
+    
 }
 .c-input__button {
     text-align: center;
@@ -738,10 +764,32 @@ input::placeholder {
 }
 .c-input__button:active
  {
+    border-color:var(--color-mountain-2);
     transform: translate(0px, 2px);
     opacity: 0.9;
 }
+.c-input__button:hover {
+    border-color:var(--color-mountain-2);
+}
+.c-input__field {
+    margin: 0;
+    font-size: 0.8rem;
+    color:var(--label-color);
+}
 
+.has-error {
+    --label-color: var(--global-color-error);
+    --input-borderColor: var(--global-borderColor-error);
+    --input-hover-borderColor: var(--global-borderColor-error);
+    --input-focus-borderColor: var(--global-borderColor-error);
+    --input-focus-boxShadowColor: var(--global-boxShadowColor-error);
+}
+
+
+.is-floating,
+.c-input__field:focus-within .c-label--floating {
+    transform: translateY(calc(var(--global-baseline) * -3))
+}
 
 
 /*------------------------------------*\

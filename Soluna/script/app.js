@@ -1,7 +1,18 @@
-$(document).ready(function () { $('.c-main__content').hide().fadeIn(1500)});
-$(document).ready(function () { $('.c-position__switch').hide().fadeIn(1500)});
-$(document).ready(function () { $('.c-clouds').hide().fadeIn(1500)});
-$(document).ready(function () { $('.c-stars').hide().fadeIn(1500)});
+$(document).ready(
+    function () { 
+        $('.c-main__content').hide().fadeIn(1500)
+        $('.c-position__switch').hide().fadeIn(1500)
+        $('.c-clouds').hide().fadeIn(1500)
+        $('.c-stars').hide().fadeIn(1500)
+
+        $('.js-switch').click(function(){
+            console.log($('.js-switch'))
+            $("body").hide().fadeIn(1000);
+        });
+
+
+    });
+
 
 
 var html_clouds;
@@ -26,6 +37,8 @@ const listenToClouds = function (list) {
 
 const setSunPosition = function () {
     currentTime = new Date();
+    var NextDay = new Date(currentTime.setDate(new Date().getDate()+1));
+    currentTime = new Date();
 
     var suncalcTimes = SunCalc.getTimes(/*Date*/ currentTime, /*Number*/ lat, /*Number*/ long /*Number (default=0)*/);
 
@@ -42,6 +55,7 @@ const setSunPosition = function () {
 
     var diff = ((currentTime.getTime() - suncalcTimes.sunrise.getTime()) / 1000) / 60;
     var percetage_timeleft = diff / totalMinutes * 100;
+    var altitude = suncalcPosition.altitude * 100;
     // Check if sun is visible 
     if (percetage_timeleft > 100 || percetage_timeleft < 0) {
         html_icon.style.display = "none";
@@ -51,18 +65,45 @@ const setSunPosition = function () {
         html_icon.style.display = "block";
 
         // GET and SET Vertical value
-        var altitude = suncalcPosition.altitude * 100;
+        
         html_icon.style.bottom = altitude + "%";
     }    
+
+    var title = GetTitle(currentTime);
     
     // SET Welcome Text
-    html_welcomeText.innerHTML = `<h3>Good Day!</h3> <p></p>`;
+
+    var sunRise;
+    var dayRise;
+    if(currentTime < suncalcTimes.rise) {
+        sunRise = suncalcTimes.rise
+        dayRise = "today"
+    }
+    else {
+        var suncalcTimesNextDay = SunCalc.getMoonTimes(/*Date*/ NextDay, /*Number*/ lat, /*Number*/ long /*Number (default=0)*/);
+        sunRise =  suncalcTimesNextDay.rise;
+        dayRise = "tomorrow"
+    }
+
+    var sunriseDate = suncalcTimes.sunrise;
+
+    var minutesSunUp = currentTime.getHours() * 60 + currentTime.getMinutes() -(sunriseDate.getHours() * 60 + sunriseDate.getMinutes());
+    
+    var timeLeft = totalMinutes - minutesSunUp;
+    if(altitude < 0 ){
+        html_welcomeText.innerHTML = `<h3>${title}</h3>
+        <p>That's to bad.. <br> The sun is under the horizon at the moment it rises at:  <strong>${sunRise.getHours()}:${sunRise.getMinutes()}</strong> ${dayRise} </p>`
+    }
+    else {
+        html_welcomeText.innerHTML = `<h3>${title}</h3> <p>I bet it's going to be a great day. <br> There are ${timeLeft} minutes left in the day. </p>`;
+    }
 }
 
 const setMoonPosition = function () {
     var currentTime = new Date();
-    var NextDay = currentTime.setDate(new Date().getDate()+1);
+    var NextDay = new Date(currentTime.setDate(new Date().getDate()+1));
     currentTime = new Date();
+
     //GET and SET MoonTimes 
     var mooncalcTimes = SunCalc.getMoonTimes(/*Date*/ currentTime, /*Number*/ lat, /*Number*/ long /*Number (default=0)*/);
 
@@ -141,19 +182,29 @@ const setMoonPosition = function () {
     }
     document.documentElement.style.setProperty('--global-circle-left', `${left}%`)
     
-    
-    
-
 
     // GET and SET Welcome Text
-    var mooncalcTimesNextDay = SunCalc.getMoonTimes(/*Date*/ NextDay, /*Number*/ lat, /*Number*/ long /*Number (default=0)*/);
-    var moonRise =  mooncalcTimesNextDay.rise;
-    if(altitude < 0 ){
-        html_welcomeText.innerHTML = `<h3>Good Evening!</h3>
-        <p>It seems like there is no moon tonight it rises at <strong>${moonRise.getHours()}:${moonRise.getMinutes()}</strong> tomorrow </p>`
+    var moonRise;
+    var dayRise;
+    if(currentTime < mooncalcTimes.rise) {
+        moonRise = mooncalcTimes.rise
+        dayRise = "today"
     }
     else {
-        html_welcomeText.innerHTML = `<h3>Good Evening!</h3>
+        var mooncalcTimesNextDay = SunCalc.getMoonTimes(/*Date*/ NextDay, /*Number*/ lat, /*Number*/ long /*Number (default=0)*/);
+        moonRise =  mooncalcTimesNextDay.rise;
+        dayRise = "tomorrow"
+    }
+
+    var title = GetTitle(currentTime);
+
+
+    if(altitude < 0 ){
+        html_welcomeText.innerHTML = `<h3>${title}</h3>
+        <p>It seems like there is no moon tonight it rises at <strong>${moonRise.getHours()}:${moonRise.getMinutes()}</strong> ${dayRise} </p>`
+    }
+    else {
+        html_welcomeText.innerHTML = `<h3>${title}</h3>
                                    <p>The moon is shining tonight \n the lunar phase today is: <strong>${moonPhase}</strong></p>`
     }
 }
@@ -163,13 +214,8 @@ const setTimeValues = function (rise, fall) {
     html_fall.innerHTML = `${fall.getHours()}:${fall.getMinutes()}`;
 }
 
-
-
 const RandomClouds = function (i) {
     let root = document.documentElement;
-
-    // root.style.setProperty('--global-animation-duration-sm', (Math.floor(Math.random() * 10) + 20) + "s");
-    // root.style.setProperty('--global-animation-duration-lg', (Math.floor(Math.random() * 25) + 70) + "s");
 
     if(html_body.clientWidth > 762) {
         i.style.animationDuration = (Math.floor(Math.random() * 25) + 60) + "s";
@@ -197,9 +243,11 @@ const RandomStars = function (list) {
 
 const RefreshBody = function () {
 
+    var html_starsBody = document.querySelector(".js-stars");
     if (html_body.classList.contains("is-night")) {
         console.log("NIGHT")
         html_stars = document.querySelector(".js-stars").children;
+        html_starsBody.style.display = "block";
         RandomStars(html_stars);
         if (html_icon){
             setMoonPosition();
@@ -208,13 +256,34 @@ const RefreshBody = function () {
     else {
         console.log("DAY")
         html_clouds = document.querySelector(".js-clouds").children;
+        html_starsBody.style.display = "none";
+        
         listenToClouds(html_clouds);
         
         if (html_icon){
             setSunPosition();
         }
+        
     }
 
+}
+
+// Helper Methods
+
+const GetTitle = function(time) {
+
+    if(time.getHours < 12 ) {
+        return "Good Morning!"
+    }
+    else if (time.getHours > 12  && currentTime.getHours < 18) {
+        return "Good Afternoon!"
+    }
+    else if (time.getHours > 18  && currentTime.getHours < 22){
+        return "Good Evening!"
+    }
+    else {
+        return "Good Night!"
+    }
 }
 
 
@@ -238,10 +307,9 @@ document.addEventListener('DOMContentLoaded', function () {
     var sw = document.querySelectorAll(".js-switch")
 
     for (i of sw) {
-        
-
         i.addEventListener("change", function () {
             if (this.value == "Day") {
+                
                 html_body.classList.remove("is-night");
                 RefreshBody();
             }
@@ -252,17 +320,17 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
     var sw_night = document.querySelector(".js-switch--night");
-    
-        //Set Theme according to sun position
-    if (currentTime > suncalcTimes.sunset) {
-        html_body.classList.add("is-night");
+
+    //Set Theme according to sun position
+    if (currentTime > suncalcTimes.sunset || currentTime < suncalcTimes.sunrise) {
+        // html_body.classList.add("is-night");
         if (sw_night) {
+           
             sw_night.checked = true;
         }
     }
 
-    
-    
+
     RefreshBody();
 
 

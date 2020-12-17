@@ -21,8 +21,10 @@
     <link rel="stylesheet" href="css/screen.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    
     <script src="script/suncalc.js"></script>
     <script src="script/app.js"></script>
+    <script src="script/validation.js"></script>
 
     <title>Soluna</title>
 </head>
@@ -223,14 +225,24 @@
             <div class="c-main__content">
               <h2 class="c-text__heading">Soluna</h2>
               <p class="c-text c-text__intro">
-                Is an application that gives you information about the sun and the moon in a visually stunning way.
+                An application that gives you information about the sun and the moon in a visually stunning way.
               </p>
               <p class="c-text c-text__intro">
                 Keep track of my creations 
               </p>
-              <form action="/Eindopdracht/Eindopdtacht_ID_JS/EIID/soluna.html">
-                <input class="c-input" type="text" placeholder="Email" required>
-                <input type="submit" value="Go to app" class="c-input c-input__button">
+              <form action="soluna.html">
+                <p class="c-input__field js-email-field">
+                  <label class="c-label js-email-label" for="email">
+                      
+                    <span class="c-label__error-message js-email-error-message">
+                        This field is required
+                    </span>
+                </label>
+                  <input class="c-input js-email-input" type="email" name="email" id="email" placeholder="e.g. jakob@howest.be" required>
+                </p>
+                
+
+                <input type="submit" value="Go to app" class="c-input c-input__button js-sign-in-button">
               </form>
                 
             </div>
