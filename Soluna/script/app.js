@@ -323,7 +323,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     //Set Theme according to sun position
     if (currentTime > suncalcTimes.sunset || currentTime < suncalcTimes.sunrise) {
-        // html_body.classList.add("is-night");
+        html_body.classList.add("is-night");
         if (sw_night) {
            
             sw_night.checked = true;
