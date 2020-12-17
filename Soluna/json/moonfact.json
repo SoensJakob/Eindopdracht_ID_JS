@@ -1,0 +1,64 @@
+{
+    "facts": [
+        {
+            "id": 0,
+            "description": " The Moon is Earth's only permanent natural satellite"
+        },
+        {
+            "id": 1,
+            "description": "The Moon always shows Earth the same face. The Moon is in synchronous rotation with Earth. "
+        },
+        {
+            "id": 2,
+            "description": "The Moon’s surface is actually dark. Although compared to the night sky it appears very bright"
+        },
+        {
+            "id": 3,
+            "description": "The Moon is drifting away from the Earth. The Moon is moving approximately 3.8 cm away from our planet every year."
+        },
+        {
+            "id": 4,
+            "description": "The Moon was made when a rock smashed into Earth"
+        },
+        {
+            "id": 5,
+            "description": "The Moon makes the Earth move as well as the tides"
+        },
+        {
+            "id": 6,
+            "description": "The Moon has quakes too. They're not called earthquakes but moonquakes. "
+        },
+        {
+            "id": 7,
+            "description": "There is water on the Moon! This is in the form of ice trapped within dust and minerals on and under the surface."
+        },
+        {
+            "id": 8,
+            "description": "A person would weigh much less on the Moon."
+        },
+        {
+            "id": 9,
+            "description": "The Moon has only been walked on by 12 people; all American men."
+        },
+        {
+            "id": 10,
+            "description": "The first spacecraft to reach the Moon was Luna 1 in 1959. "
+        },
+        {
+            "id": 11,
+            "description": "During the 1950’s the USA considered detonating a nuclear bomb on the Moon. "
+        },
+        {
+            "id": 12,
+            "description": "The moon is about the same age as earth."
+        },
+        {
+            "id": 13,
+            "description":  "The moon orbits the Earth at an average speed of 2,300 miles an hour (3,700 kilometers an hour)."
+        },
+        {
+            "id": 14,
+            "description": "The Moon’s entire surface is cratered and pitted from impacts. "
+        }
+    ]
+}

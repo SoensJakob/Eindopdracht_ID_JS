@@ -537,8 +537,9 @@ input::placeholder {
 */
 
 .c-icon {
+    display: none;
     position: absolute;
-    transition: opacity var(--global-transitionTime-beta) var(--global-transitionProperty-ease);
+
 
 }
 .c-icon__svg {

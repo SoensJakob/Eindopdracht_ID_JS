@@ -1,0 +1,64 @@
+{
+    "facts": [
+        {
+            "id": 0,
+            "description": "The Sun accounts for 99.86% of the mass in the solar system."
+        },
+        {
+            "id": 1,
+            "description": "Over one million Earth’s could fit inside the Sun. "
+        },
+        {
+            "id": 2,
+            "description": "One day the Sun will consume the Earth. Yikes!"
+        },
+        {
+            "id": 3,
+            "description": "The energy created by the Sun’s core is nuclear fusion. "
+        },
+        {
+            "id": 4,
+            "description": "The Sun is almost a perfect sphere. There is only a 10 km difference in its polar and equatorial diameters"
+        },
+        {
+            "id": 5,
+            "description": "The Sun is travelling at 220 km per second. "
+        },
+        {
+            "id": 6,
+            "description": "The Sun will eventually be about the size of Earth. Once the Sun has completed its red giant phase, it will collapse"
+        },
+        {
+            "id": 7,
+            "description": "The energy created by the Sun’s core is nuclear fusion. "
+        },
+        {
+            "id": 8,
+            "description": "It takes eight minutes for light reach Earth from the Sun. "
+        },
+        {
+            "id": 9,
+            "description": "The distance between Earth and Sun changes. "
+        },
+        {
+            "id": 10,
+            "description": "Temperatures inside the Sun can reach 15 million degrees Celsius. "
+        },
+        {
+            "id": 11,
+            "description": "The Aurora Borealis and Aurora Australis are caused by the interaction of solar winds with Earth’s atmosphere."
+        },
+        {
+            "id": 12,
+            "description": "The Sun is classified as a yellow dwarf star."
+        },
+        {
+            "id": 13,
+            "description": "The atmosphere of the Sun is composed of three layers: the photosphere, the chromosphere, and the corona."
+        },
+        {
+            "id": 14,
+            "description": "The Sun rotates more quickly at its equator than it does close to its poles. This is known as differential rotation."
+        }
+    ]
+}

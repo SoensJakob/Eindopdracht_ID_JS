@@ -3,10 +3,12 @@ $(document).ready(
         $('.c-main__content').hide().fadeIn(1500)
         $('.c-position__switch').hide().fadeIn(1500)
         $('.c-clouds').hide().fadeIn(1500)
-        $('.c-stars').hide().fadeIn(1500)
+        
+        if(document.body.classList.contains("is-night")) {
+            $('.c-stars').hide().fadeIn(1500)
+        }
 
         $('.js-switch').click(function(){
-            console.log($('.js-switch'))
             $("body").hide().fadeIn(1000);
         });
 
@@ -20,6 +22,7 @@ var html_stars;
 var html_body;
 var html_icon;
 var html_welcomeText;
+var html_quote;
 
 var html_rise_svg;
 var html_fall_svg;
@@ -28,6 +31,23 @@ var suncalc;
 
 var lat = 50.82803;
 var long = 3.26487;
+
+
+// GET JSON FACTS 
+const getSunFacts = function(){
+    fetch("json/sunfact.json")
+        .then(res => res.json())
+        .then(data => html_quote.innerHTML = data.facts[Math.floor(Math.random() * 14)].description);
+}
+
+const getMoonFacts = function(){
+    fetch("json/moonfact.json")
+        .then(res => res.json())
+        .then(data => html_quote.innerHTML = data.facts[Math.floor(Math.random() * 14)].description);
+}
+
+    
+
 
 const listenToClouds = function (list) {
     for (i of list) {
@@ -62,7 +82,8 @@ const setSunPosition = function () {
     }
     else {
         html_icon.style.left = percetage_timeleft + "%"
-        html_icon.style.display = "block";
+        $('.c-icon').hide().fadeIn(1500)
+
 
         // GET and SET Vertical value
         
@@ -75,8 +96,8 @@ const setSunPosition = function () {
 
     var sunRise;
     var dayRise;
-    if(currentTime < suncalcTimes.rise) {
-        sunRise = suncalcTimes.rise
+    if(currentTime < suncalcTimes.sunrise) {
+        sunRise = suncalcTimes.sunrise
         dayRise = "today"
     }
     else {
@@ -89,14 +110,19 @@ const setSunPosition = function () {
 
     var minutesSunUp = currentTime.getHours() * 60 + currentTime.getMinutes() -(sunriseDate.getHours() * 60 + sunriseDate.getMinutes());
     
-    var timeLeft = totalMinutes - minutesSunUp;
+    var timeLeft = Math.floor(totalMinutes - minutesSunUp);
     if(altitude < 0 ){
         html_welcomeText.innerHTML = `<h3>${title}</h3>
         <p>That's to bad.. <br> The sun is under the horizon at the moment it rises at:  <strong>${sunRise.getHours()}:${sunRise.getMinutes()}</strong> ${dayRise} </p>`
     }
     else {
-        html_welcomeText.innerHTML = `<h3>${title}</h3> <p>I bet it's going to be a great day. <br> There are ${timeLeft} minutes left in the day. </p>`;
+        html_welcomeText.innerHTML = `<h3>${title}</h3> <p>I bet it's going to be a great day. <br> There are <strong>${timeLeft}</strong> minutes left in the day. </p>`;
     }
+
+    getSunFacts()
+    
+
+
 }
 
 const setMoonPosition = function () {
@@ -135,6 +161,7 @@ const setMoonPosition = function () {
         // GET and SET size
         var scale = 410000 / mooncalcPosition.distance
         html_icon.style.transform = `scale(${scale})`;
+
 
     }
     
@@ -180,8 +207,7 @@ const setMoonPosition = function () {
         }
 
     }
-    document.documentElement.style.setProperty('--global-circle-left', `${left}%`)
-    
+    document.documentElement.style.setProperty('--global-circle-left', `${left}%`);   
 
     // GET and SET Welcome Text
     var moonRise;
@@ -205,8 +231,11 @@ const setMoonPosition = function () {
     }
     else {
         html_welcomeText.innerHTML = `<h3>${title}</h3>
-                                   <p>The moon is shining tonight \n the lunar phase today is: <strong>${moonPhase}</strong></p>`
+                                   <p>The moon is shining today \n the lunar phase today is: <strong>${moonPhase}</strong></p>`
     }
+    
+    getMoonFacts();
+    
 }
 
 const setTimeValues = function (rise, fall) {
@@ -287,6 +316,7 @@ const GetTitle = function(time) {
 }
 
 
+
 document.addEventListener('DOMContentLoaded', function () {
     console.log("Script Loaded!")
 
@@ -297,6 +327,7 @@ document.addEventListener('DOMContentLoaded', function () {
     html_fall_svg = document.querySelector(".js-fall_svg");
     html_fall = document.querySelector(".js-fall");
     html_rise = document.querySelector(".js-rise");
+    html_quote = document.querySelector(".js-quote");
     
 
     var currentTime = new Date();
@@ -330,11 +361,5 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-
     RefreshBody();
-
-
-
-    
-
 });

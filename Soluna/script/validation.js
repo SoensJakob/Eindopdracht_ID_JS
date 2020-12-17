@@ -71,7 +71,6 @@ const enableListeners = function() {
 		e.preventDefault();
 
 		if (isValidEmailAddress(email.input.value)) {
-			console.log('Form is good to go!');
 			window.location = 'soluna.html'
 		} else {
 			addErrors(email);
